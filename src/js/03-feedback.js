@@ -1,24 +1,31 @@
 import throttle from 'lodash.throttle';
 
 const form = document.querySelector('.feedback-form');
-const email = form.elements.email.value;
-const message = form.elements.message.value;
+const subBtn = document.querySelector('button');
 const LOCAL_KEY = 'feedback-form-state';
-console.log(email);
-form.addEventListener('input', getData);
 
+form.addEventListener('input', throttle(getData, 500));
 function getData(evt) {
-  console.log(form.elements.email.value);
-  console.log(form.elements.message.value);
-  //   localStorage.setItem(LOCAL_KEY, evt.target.value);
-  const data = { email, message };
-  localStorage.setItem(LOCAL_KEY, data);
-  //   localStorage.setItem(LOCAL_KEY, form.elements.message.value);
+  const data = {
+    email: form.elements.email.value,
+    message: form.elements.message.value,
+  };
+  localStorage.setItem(LOCAL_KEY, JSON.stringify(data));
 }
 
 document.addEventListener('DOMContentLoaded', backContent);
-
 function backContent(evt) {
-  evt.target.value = localStorage.getItem(LOCAL_KEY);
-  console.log(localStorage.getItem(LOCAL_KEY));
+  form.elements.email.value = JSON.parse(localStorage.getItem(LOCAL_KEY)).email;
+  form.elements.message.value = JSON.parse(
+    localStorage.getItem(LOCAL_KEY)
+  ).message;
+}
+
+subBtn.addEventListener('click', sendData);
+function sendData(evt) {
+  evt.preventDefault();
+  console.log(JSON.parse(localStorage.getItem(LOCAL_KEY)));
+  localStorage.clear(LOCAL_KEY);
+  form.elements.email.value = '';
+  form.elements.message.value = '';
 }
