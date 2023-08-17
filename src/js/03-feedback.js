@@ -15,10 +15,16 @@ function getData(evt) {
 
 document.addEventListener('DOMContentLoaded', backContent);
 function backContent(evt) {
-  form.elements.email.value = JSON.parse(localStorage.getItem(LOCAL_KEY)).email;
-  form.elements.message.value = JSON.parse(
-    localStorage.getItem(LOCAL_KEY)
-  ).message;
+  if (localStorage.getItem(LOCAL_KEY) === null) {
+    return;
+  } else {
+    form.elements.email.value = JSON.parse(
+      localStorage.getItem(LOCAL_KEY)
+    ).email;
+    form.elements.message.value = JSON.parse(
+      localStorage.getItem(LOCAL_KEY)
+    ).message;
+  }
 }
 
 subBtn.addEventListener('click', sendData);
