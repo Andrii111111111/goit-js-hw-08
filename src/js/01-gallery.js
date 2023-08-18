@@ -30,6 +30,3 @@ const lightbox = new SimpleLightbox('.gallery a', {
   captionPosition: 'bottom',
   captionDelay: 250,
 });
-
-const li = document.querySelector('.gallery__item');
-li.style.listStyle = 'none';
